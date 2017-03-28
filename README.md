@@ -75,6 +75,34 @@ We could then start the development!
 - Web server: [hb_dta_ws.py](https://github.com/aeud/hb-dta/blob/master/hb_dta_ws.py)
 - Bot: [hb_dta_bot.py](https://github.com/aeud/hb-dta/blob/master/hb_dta_bot.py)
 
+## A small word about the recommendations
+
+Recommendations is very complicated when using an API, because they are written to describe the data, not to analyse it. At the beginning, the idea was to dump the enough amount of data (probably to a relational **PostgreSQL**), and run some queries on the top of it.
+
+The only limit was that 1 request / sec quota from *OpenDota*, which was beatable by using *Lambdas*, but still, it was quite long.
+
+However, after having read the *OpenDota API documentation*, the solution was there: the `explorer` method let us query directly their *PostgreSQL* database. The `schema` method gave me the tables, and after a quick draft of the tables, I could write the recommendation query:
+
+**Based on a player's most player heroes, and on the past matches, which cominations hero / item are the best?**
+
+```
+SELECT
+    h.name hero,
+    i.name item,
+    SUM(pm.kills) kills
+FROM
+    player_matches pm,
+    items i,
+    heroes h
+WHERE
+    i.id IN (pm.item_0, pm.item_1, pm.item_2, pm.item_3, pm.item_4, pm.item_5)
+    AND h.id = pm.hero_id
+    AND pm.hero_id IN (12432, 432423, 32432423) -- player's top heroes
+GROUP BY 1, 2
+ORDER BY 3 DESC
+LIMIT 10
+```
+
 ## Demo
 
 ![demo](https://www.dropbox.com/s/f5r5v6npgm73sm1/test-chat.gif?dl=1)
