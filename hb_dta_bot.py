@@ -14,42 +14,11 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 """
-LAMBDA Definition: botAPI
-challenge is a method to catch the POST request from Facebook,
-check the token, and complete the challenge
-"""
-def challenge(event, context):
-    qs = event.get("params").get("querystring")
-
-    token = qs.get("hub.verify_token")
-    challenge = qs.get("hub.challenge")
-    mode = qs.get("hub.mode")
-
-    if mode == "subscribe" and token == os.getenv("MESSENGER_TOKEN"):
-        # Cast as int the challenge, otherwise it doesn't work
-        return int(challenge)
-    return None
-
-"""
-LAMBDA Definition: botAPIMess
-api will catch the GET requests coming from Facebook messenger,
-and return None (it doesn't have to return anything)
-"""
-def api(event, context):
-    print(event)
-    """
-    invoke_lambda is a trick to asynchronize the process workload
-    it will invoke another AWS Lambda, asynchronously ("Event" invocation type)
-    """
-    invoke_lambda("botAPIProcess", event)
-    return None
-
-"""
-LAMBDA Definition: botAPIProcess
-message will parse the event payload and execute receive_message method
+LAMBDA Definition: hbDtaBot
+hb_dta_bot will parse the event payload and execute receive_message method
 for each received message
 """
-def message(event, context):
+def handler(event, context):
     logger.info(json.dumps(event))
 
     body = event.get("body-json")
@@ -64,17 +33,7 @@ def message(event, context):
     
     return None # break
 
-"""
-invoke_lambda is a method to invoke asynchronously another lambda
-"""
-def invoke_lambda(function_name, payload):
-    import boto3
-    lambda_client = boto3.client("lambda")
-    lambda_client.invoke(
-        FunctionName=function_name,
-        InvocationType="Event",
-        Payload=json.dumps(payload),
-    )
+
 
 def receive_message(message):
     if message.get("message").get("quick_reply"):

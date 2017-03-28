@@ -1,5 +1,7 @@
 # HB DTA
 
+*Unfortunately I didn't have time to submit and make the Messenger app to be validated, so for you to use the bot directly on Messenger, please send me your Facebook ID, I'll add you as a developer of the app, and you'll be able to try it. There is also a demo bellow.*
+
 ## Objective
 
 The objective is to write a *Facebook Messenger bot*, in *Python*, which reads a name or an `account_id` of a **Dota** player, and answer some statistics.
@@ -44,20 +46,21 @@ That's heavy! As we don't have a lot of time, let's consider another alternative
 
 **I think we have our stack: AWS Lambda + API Gateway + Python2.7**
 
+![infrastructure](https://www.dropbox.com/s/hty9db1vhmm1wm4/infrastructure.jpg?dl=1)
+
 ## Chat process
 
 Before coding, let's analyse what we'll have to develop
 
 ![flow](https://www.dropbox.com/s/iypbrdn87o7jszj/Screenshot%202017-03-27%2015.20.37.png?dl=1)
 
-There will be 3 lambdas:
+There will be 2 lambdas:
 
-- `hbDtaPost` to catch the `POST` request for first time authentification
-- `hbDtaGet` to catch the `GET` requests when someone enters some text
-- `hbDtaProcess` to process the text got in `hbDtaGet`
+- `hbDtaWS` to catch the `GET` & `POST` from Messenger: `GET` for the authentification challenge, and `POST` for the messages
+- `hbDtaBot` to process the text got in `hbDtaGet`
 
-The main reason why we split `hbDtaGet` & `hbDtaProcess` is to avoid to keep the connection between Messenger and the API during the whole process (which takes several seconds in the worst case scenario). So 
-`hbDtaGet` invokes `hbDtaProcess` asynchrnously, and then return an HTTP response. `hbDtaProcess` will then send the different answers to the Messenger.
+The main reason why we split `hbDtaWS` & `hbDtaBot` is to avoid to keep the connection between Messenger and the API during the whole process (which takes several seconds in the worst case scenario). So 
+`hbDtaWS` invokes `hbDtaBot` asynchrnously, and then return an HTTP response. `hbDtaBot` will then send the different answers to the Messenger.
 
 ## Echo server + Deployment
 
