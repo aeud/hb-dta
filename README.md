@@ -70,3 +70,7 @@ We could then start the development!
 ## lambda.py
 
 [lambda.py](https://github.com/aeud/hb-dta/blob/master/lambda/api/lambda.py)
+
+## Demo
+
+![demo](https://www.dropbox.com/s/f5r5v6npgm73sm1/test-chat.gif?dl=1)
