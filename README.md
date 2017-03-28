@@ -1,6 +1,6 @@
 # HB DTA
 
-*Unfortunately I didn't have time to submit and make the Messenger app to be validated, so for you to use the bot directly on Messenger, please send me your Facebook ID, I'll add you as a developer of the app, and you'll be able to try it. There is also a demo bellow.*
+*Unfortunately I didn't have time to submit and make the Messenger app to be validated, so for you to use the bot directly on Messenger, please send me your Facebook ID, I'll add you as a developer of the app, and you'll be able to try it. There is also a demo below.*
 
 ## Objective
 
@@ -13,7 +13,7 @@ I've never used this API. I'm more familiar with *Slack*, but my experience with
 Messenger bot is quite easy to use:
 - If someone writes to the bot, a HTTP request is sent to an endpoint (Webhook), so we'll have to be able to receive them
 - The bot can write to Messenger by sending an HTTP request to their endpoint
-- There is an authentification method, by exchanging a token (first time only)
+- There is an authentication method, by exchanging a token (first time only)
 
 ## Dota API
 
@@ -21,7 +21,7 @@ The exercise was recommending to use [dota2api](http://dota2api.readthedocs.io/e
 
 ## Choice of the Backend
 
-Webhook / Webserver / HTTP pushes / HTTP requests, don't require a statefull system, so any webserver technology could work. Let's restrict to Python, the following technologies could work:
+Webhook / Webserver / HTTP pushes / HTTP requests, don't require a stateful system, so any webserver technology could work. Let's restrict to Python, the following technologies could work:
 
 - Django
 - Tornado
@@ -56,15 +56,15 @@ Before coding, let's analyse what we'll have to develop
 
 There will be 2 lambdas:
 
-- `hbDtaWS` to catch the `GET` & `POST` from Messenger: `GET` for the authentification challenge, and `POST` for the messages
+- `hbDtaWS` to catch the `GET` & `POST` from Messenger: `GET` for the authentication challenge, and `POST` for the messages
 - `hbDtaBot` to process the text got in `hbDtaGet`
 
 The main reason why we split `hbDtaWS` & `hbDtaBot` is to avoid to keep the connection between Messenger and the API during the whole process (which takes several seconds in the worst case scenario). So 
-`hbDtaWS` invokes `hbDtaBot` asynchrnously, and then return an HTTP response. `hbDtaBot` will then send the different answers to the Messenger.
+`hbDtaWS` invokes `hbDtaBot` asynchronously, and then return an HTTP response. `hbDtaBot` will then send the different answers to the Messenger.
 
 ## Echo server + Deployment
 
-As it was my first Messenger bot, I was discovering at the same time. (and first time using Python in Lambda), so we wrote an `Echo` Lambda to answer the exact input. That's easy, but the challenge was to find a correct deployment process to not loose too much time (as the tests had to be done on the server directly).
+As it was my first Messenger bot, I was discovering at the same time. (and first time using Python in Lambda), so we wrote an `Echo` Lambda to answer the exact input. That's easy, but the challenge was to find a correct deployment process to not lose too much time (as the tests had to be done on the server directly).
 
 `deploy.sh` is the solution. It's packing everything which is needed to feed the Lambda, push it to *AWS S3*, and then update the Lambdas.
 
@@ -83,7 +83,7 @@ The only limit was that 1 request / sec quota from *OpenDota*, which was beatabl
 
 However, after having read the *OpenDota API documentation*, the solution was there: the `explorer` method let us query directly their *PostgreSQL* database. The `schema` method gave me the tables, and after a quick draft of the tables, I could write the recommendation query:
 
-**Based on a player's most player heroes, and on the past matches, which cominations hero / item are the best?**
+**Based on a player's most player heroes, and on the past matches, which combinations hero / item are the best?**
 
 ```
 SELECT
