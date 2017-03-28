@@ -70,9 +70,10 @@ As it was my first Messenger bot, I was discovering at the same time. (and first
 
 We could then start the development!
 
-## lambda.py
+## Code
 
-[lambda.py](https://github.com/aeud/hb-dta/blob/master/lambda/api/lambda.py)
+- Web server: [hb_dta_ws.py](https://github.com/aeud/hb-dta/blob/master/hb_dta_ws.py)
+- Bot: [hb_dta_bot.py](https://github.com/aeud/hb-dta/blob/master/hb_dta_bot.py)
 
 ## Demo
 
