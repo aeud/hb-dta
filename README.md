@@ -106,3 +106,16 @@ LIMIT 10
 ## Demo
 
 ![demo](https://www.dropbox.com/s/f5r5v6npgm73sm1/test-chat.gif?dl=1)
+
+## To go further
+
+This chat is super basic, and does not let the user "ask a real question". That would probably be the direction I would follow for continuing this project. We would implement a NLP system to understand the question, and extract the few information from the user's input:
+
+- What (type of action: statistics, recommendations, heroes, etc.)
+- Who (player, hero, item; singluar or plural)
+
+We would also be forced to add states to the initial system. As Facebook Messenger doesn't allow to exchange information (like a JWT), we would have to use a database. DynamoDB is working quite well with Lambda, event if any database would work.
+
+Finally, we would have to work a bit harder on the recommendation. Extracting the data wouldn't be an option anymore, as their API `explorer` is a bit limited in the tables exposure. As already suggested, a relational database seem ideal to store this information (their data is not so huge, and won't reach PSQL limits; their api is really relational schema like, but that's understandable, they're exposiing their own PSQL database).
+
+-- ae
