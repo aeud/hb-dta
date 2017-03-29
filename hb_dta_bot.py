@@ -112,7 +112,7 @@ def bot_deal_with_one_number(account_id, sender_id):
     send_indicator(sender_id, "typing_on")
     player = get_player(account_id)
     if player.get("profile"):
-        send_text_message(sender_id, "account id: %s" % account_id)
+        send_text_message(sender_id, "Steam account ID: %s" % account_id)
 
         name = player.get("profile").get("personaname")
 
