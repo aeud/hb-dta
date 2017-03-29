@@ -1,6 +1,6 @@
 # HB DTA
 
-*Unfortunately I didn't have time to submit and make the Messenger app to be validated, so for you to use the bot directly on Messenger, please send me your Facebook ID, I'll add you as a developer of the app, and you'll be able to try it. There is also a demo below.*
+*Unfortunately I didn't have time to submit the Messenger app to be validated soon enough, so for you to use the bot directly on Messenger, please send me your Facebook ID, I'll add you as a developer of the app, and you'll be able to try it. There is also a demo below.*
 
 ## Objective
 
